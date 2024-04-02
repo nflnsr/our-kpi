@@ -4,9 +4,9 @@ function LoginPage() {
   return (
     <Layout
       pageScroll
-      className="grid h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] place-items-center sm:h-[calc(100svh-var(--header-height-lg)-var(--footer-height))]"
+      className="grid min-h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] place-items-center sm:h-[calc(100svh-var(--header-height-lg)-var(--footer-height))]"
     >
-      <section className="mx-auto w-full max-w-[350px]">
+      <section className="mx-auto w-full max-w-[350px] py-5">
         <form className="flex w-full flex-col items-center gap-8 rounded-lg border-2 border-blue-400 bg-gradient-to-br from-blue-300 via-cyan-300 to-sky-300 pb-16 pt-10">
           <h1 className="pb-4 text-center text-3xl font-semibold">Login</h1>
           <div className="flex flex-col gap-1">
