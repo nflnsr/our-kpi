@@ -1,72 +1,180 @@
 import { Layout } from "@/components/layout";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { axiosInstance } from "../lib/utils";
+import { Input } from "@/components/ui/input";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
+import { Link, useNavigate } from "react-router-dom";
+
+type Inputs = {
+  name: string;
+  email: string;
+  departements_id: string;
+  password: string;
+  confirmPassword: string;
+};
+
+type Departement = {
+  departements_id: number;
+  departements_name: string;
+};
 
 function RegisterPage() {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const { data } = useQuery({
+    queryKey: ["departements"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/departements");
+      return data;
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: Omit<Inputs, "confirmPassword">) => {
+      const res = await axiosInstance.post("/auth/register", data);
+
+      return res.data;
+    },
+    onSuccess: async (data: { email?: string[]; message?: string }) => {
+      if (data?.email?.[0] === "The email has already been taken.") {
+        return toast({
+          title: "Email already taken",
+          className: "bg-white text-red-500 border-red-500 border-2",
+          description: "Please use another email",
+          duration: 4000,
+        });
+      }
+      toast({
+        title: "Register success",
+        className: "bg-white text-green-500 border-green-500 border-2",
+        description: "Please login to continue",
+        duration: 8000,
+      });
+      navigate("/login");
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const { confirmPassword, ...newData } = data;
+    console.log(newData);
+    if (data.password !== confirmPassword) {
+      setError("confirmPassword", {
+        type: "manual",
+        message: "password not match",
+      });
+      return;
+    }
+    mutate(newData);
+  };
+
   return (
     <Layout
       pageScroll
-      className="grid h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] place-items-center sm:h-[calc(100svh-var(--header-height-lg)-var(--footer-height))]"
+      className="grid h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] min-h-[540px] place-items-center sm:h-[calc(100svh-var(--header-height-lg)-var(--footer-height))]"
     >
-      <section className="mx-auto w-full max-w-[350px]">
-        <form className="flex w-full flex-col items-center gap-2 rounded-lg border-2 border-blue-400 bg-gradient-to-br from-blue-300 via-cyan-300 to-sky-300 pb-6 pt-4">
-          <h1 className="text-center text-3xl font-semibold ">Register</h1>
+      <section className="mx-auto w-full max-w-[350px] py-5">
+        <form
+          className="relative flex w-full flex-col items-center gap-1.5 rounded-lg border-2 border-blue-400 bg-gradient-to-br from-blue-300 via-cyan-300 to-sky-300 pb-6 pt-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <h1 className="text-3xl font-semibold text-center ">Register</h1>
           <div className="flex flex-col gap-1">
-            <label htmlFor="nama" className="text-lg">
+            <label htmlFor="nama" className="">
               Nama
             </label>
-            <input
-              type="nama"
+            <Input
               id="nama"
-              className="my-auto w-64 px-2 py-0.5 ring-1 ring-cyan-500"
+              type="nama"
+              required
+              {...register("name")}
+              className="w-64 h-8 px-2 my-auto ring-1 ring-cyan-500"
               placeholder="Jhon Doe"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="email" className="text-lg">
+            <label htmlFor="email" className="">
               Email
             </label>
-            <input
+            <Input
+              id="email"
               type="email"
-              className="my-auto w-64 px-2 py-0.5 ring-1 ring-cyan-500"
+              required
+              {...register("email")}
+              className="w-64 h-8 px-2 my-auto ring-1 ring-cyan-500"
               placeholder="jhondoe@gmail.com"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="departemen" className="text-lg">
-              Departemen
-            </label>
-            <input
-              type="departemen"
-              className="my-auto w-64 px-2 py-0.5 ring-1 ring-cyan-500"
-              placeholder="Marketing"
-            />
+            <label htmlFor="departement">Departement</label>
+            <select
+              id="departement"
+              {...register("departements_id")}
+              required
+              className="w-64 h-8 px-2 text-sm rounded-md ring-1 ring-cyan-500"
+            >
+              <option value="">--select departements--</option>
+              {data?.data.map((departement: Departement) => (
+                <option
+                  key={departement.departements_id}
+                  value={departement.departements_id}
+                  className="h-20 text-sm"
+                >
+                  {departement.departements_name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="password" className="text-lg">
+            <label htmlFor="password" className="">
               Password
             </label>
-            <input
+            <Input
+              id="password"
               type="password"
-              className="my-auto w-64 px-2 py-0.5 ring-1 ring-cyan-500"
-              placeholder="*******"
+              {...register("password")}
+              required
+              className="w-64 h-8 px-2 my-auto ring-1 ring-cyan-500"
+              placeholder="&#128900;&#128900;&#128900;&#128900;&#128900;&#128900;&#128900;"
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="Confirm password" className="text-lg">
+            <label htmlFor="confirm-password" className="">
               Confirm password
             </label>
-            <input
-              type="Confirm password"
-              className="my-auto w-64 px-2 py-0.5 ring-1 ring-cyan-500"
-              placeholder="*******"
+            <Input
+              id="confirm-password"
+              type="password"
+              required
+              {...register("confirmPassword")}
+              className="w-64 h-8 px-2 my-auto ring-1 ring-cyan-500"
+              placeholder="&#128900;&#128900;&#128900;&#128900;&#128900;&#128900;&#128900;"
             />
+            {errors.confirmPassword && (
+              <p className="text-sm font-semibold text-red-600">
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
-          <button className="w-64 rounded-lg bg-blue-400 py-2 text-lg font-semibold text-white">
+          <button
+            type="submit"
+            className="w-64 py-2 mt-1 text-lg font-semibold text-white bg-blue-400 rounded-lg disabled:opacity-55"
+            disabled={isPending}
+          >
             Register
           </button>
           <p>
             have an account?{" "}
-            <span className="text-sky-800 underline">
-              <a href="/login">Login here</a>
+            <span className="underline text-sky-800">
+              <Link to="/login">Login here</Link>
             </span>
           </p>
         </form>

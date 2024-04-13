@@ -1,9 +1,12 @@
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 function ProtectedRoute() {
-    return (
-        <Outlet />
-    )
+  const { authData } = useAuth();
+  if (!authData.isAuth) {
+    return <Outlet />;
   }
-  
-  export default ProtectedRoute
+  return <Navigate to="/dashboard" replace />;
+}
+
+export default ProtectedRoute;
