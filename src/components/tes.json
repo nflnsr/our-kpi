@@ -1,0 +1,502 @@
+{
+    "message": "Data penilaian berhasil diperoleh.",
+    "data": [
+        {
+            "laporan_id": "9bddd39f-260a-478f-a3de-c8a0e8d767bf",
+            "user": "karyawan2@example.com",
+            "klausuls": [
+                "Pembangunan dan Pemeliharaan Komitmen",
+                "Pembuatan dan Pendokumentasikan Rencana K3",
+                "Pengendalian Perancangan",
+                "Pengendalian Dokumen",
+                "Pembelian dan Pengendalian Produk",
+                "Keamanan Bekerja Berdasarkan SMK3 ",
+                "Standar Pemantauan",
+                "Pelaporan dan Perbaikan Kekurangan",
+                "Pengelolaan Material dan Perpindahan",
+                "Pengumpulan dan Penggunaan Data",
+                "Pemeriksaan SMK3",
+                "Pengembangan Keterampilan dan Kemampuan"
+            ],
+            "klausulItems": [
+                [
+                    {
+                        "penilaian_id": "9bddd39f-331e-47ad-be29-40c278b7b774",
+                        "title": "Terdapat kebijakan K3",
+                        "target": 1,
+                        "aktual": "Aktualll",
+                        "keterangan": "tes keterangan",
+                        "disetujui": 1,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-401c-4bf1-add9-0ccf9afaeb7d",
+                        "title": "Kebijakan K3 dikomunikasikan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 1,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd39f-4c8d-4f11-af93-3907fec8c0cb",
+                        "title": "Rencana kerja dan rencana khusus",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 1,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-58e1-4cb2-9728-bc798a23a255",
+                        "title": "Informasi K3 dikomunikasikan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 1,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd39f-650b-41d0-9029-9d40cf165de6",
+                        "title": "Bill of quantity (Planning, RAB, evaluasi)",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-715e-4c19-9192-95b9c247e056",
+                        "title": "Jumlah laporan perubahan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd39f-7ddc-4e46-895f-a57963668583",
+                        "title": "Dokumen edisi terbaru disimpan pada tempat yang ditentukan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-8a36-4eff-ac7d-8dc6d59c1356",
+                        "title": "Dokumen usang segera disingkirkan atau diberi tanda khusus",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd39f-966e-4284-adee-dcbe5ec63b87",
+                        "title": "Spesifikasi pembelian",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-a2b0-4e96-9de4-8bce5bc6ca8c",
+                        "title": "Pemeriksaan kesesuaian barang dan jasa sesuai spesifikasi",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd39f-aee4-4acf-9cfc-e787c182c9b8",
+                        "title": "Terdapat prosedur pengendalian resiko",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-bb1f-4a42-a8cd-8ec47ae14bce",
+                        "title": "Setiap pekerjaan yang memiliki resiko tinggi menggunakan izin kerja",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-c754-413d-92f5-7c75ad13f0bf",
+                        "title": "APD dalam kondisi layak dan sesuai standart yang berlaku",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-d3ad-4271-b69b-80fdf0332287",
+                        "title": "Evaluasi upaya pengendalian resiko secara berkala",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-dfed-4cac-bb86-9132f115c166",
+                        "title": "Safety meeting",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-ecfb-4a66-b0e7-2c73a3dc6280",
+                        "title": "Safety talk",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd39f-f943-4315-95d9-b394700091eb",
+                        "title": "Toolbox meeting",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-0583-4d95-a3b4-898c2973f528",
+                        "title": "Konsultasi pekerja",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 1,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-1277-4c56-bfe4-0cf4e22aa120",
+                        "title": "Kesesuaian kompetensi SPV",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 1,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-1ec3-49a9-88fe-e0bf08cb2021",
+                        "title": "Jadwal rutin pemeliharaan, perawatan dan perbaikan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 1,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-2ba4-460f-aa9a-ad113bf651d0",
+                        "title": "Jadwal rutin kalibrasi alat",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-3807-4bc4-a1c4-525c6280cf00",
+                        "title": "Kesesuaian kompetensi teknisi",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-4446-4c3b-a59c-db2039570b1f",
+                        "title": "Sertifikat sarana dan peralatan produksi",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-50cc-4991-9d4a-6fed3c3c989d",
+                        "title": "Fasilitas keadaan darurat",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-5d52-4223-95c9-8689260f13c9",
+                        "title": "Pemeriksaan alat tanggap darurat1.Inspeksi APAR2.Inspeksi Hydrant3.Inspeksi Fire Alarm System",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-8f18-4201-b67d-761e7d3a3e10",
+                        "title": "Pelatihan keadaan tanggap darurat",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-9b5b-4212-beff-ec6cb057660b",
+                        "title": "Prosedur keadaan tanggap darurat",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-a7c6-48f4-a6b3-c74aa113194e",
+                        "title": "Tersedia fasilitas P3K",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-b3f0-4f55-840e-83c0ab3a18b4",
+                        "title": "Inspeksi Peralatan P3K",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-c03d-40ce-af17-5f23648e47aa",
+                        "title": "Pelatihan P3K",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd3a0-cc87-4421-8e83-f5ec48fceb38",
+                        "title": "Inspeksi K3",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-d8d8-4e28-83c5-8896a44732a7",
+                        "title": "Laporan Inspeksi K3",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-e520-45e0-b32f-9f424a1b5e3d",
+                        "title": "Laporan tindakan perbaikan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a0-f182-45d5-8822-cc17572367da",
+                        "title": "Pengukuran lingkungan kerja1.Faktor Fisika2.Faktor Kimia3.Faktor Biologi4.Faktor Ergonomi5.Faktor Psikologi",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-3b12-4e67-a244-aba7b0272613",
+                        "title": "Medical check up",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-4758-4e61-b695-f53dd142912a",
+                        "title": "Program pelayanan kesehatan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd3a1-538a-42cf-ab4b-1a31779dc10f",
+                        "title": "Laporan unsafe action",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-5fc5-40cd-b51c-d326866909e4",
+                        "title": "Laporan unsafe condition",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-6c03-4120-9fb5-0932e0f5329d",
+                        "title": "Laporan nearmiss",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-7867-457b-8249-a2bf5b50fd53",
+                        "title": "Laporan kecelakaan kerja",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-8525-4bda-a212-ac7174b8cc88",
+                        "title": "Laporan kecelakaan kerja",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-91af-417f-aa82-0175a8c07ba1",
+                        "title": "Tim investigasi terlatih dan berkompeten",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-9dd8-40cb-b415-30f57936e098",
+                        "title": "Tindak lanjut kecelakaan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd3a1-aa0a-436a-9819-173d700a83e3",
+                        "title": "Prosedur penyimpanan bahan",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-b682-4ded-a70e-f064ca5e17ba",
+                        "title": "Prosedur barang yang rusak atau kadaluarsa",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd3a1-c2a8-4bf7-9d80-e61cb5e3f7c9",
+                        "title": "Catatan K3",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd3a1-cee0-4227-a77e-3b3401874e8f",
+                        "title": "Melakukan audit internal",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-daf7-4174-9f38-e2f1797c837d",
+                        "title": "Laporan audit internal",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ],
+                [
+                    {
+                        "penilaian_id": "9bddd3a1-e714-421b-81b7-e7446930b0ab",
+                        "title": "Pelatihan K3",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    },
+                    {
+                        "penilaian_id": "9bddd3a1-f37d-4386-aa14-8433832f0517",
+                        "title": "Pelatihan K3 dilakukan oleh orang dan badan yang berkompeten",
+                        "target": 1,
+                        "aktual": null,
+                        "keterangan": null,
+                        "disetujui": 0,
+                        "rekomendasi": null
+                    }
+                ]
+            ]
+        }
+    ],
+    "total": 1
+}
+
+cara mengecek setiap item apakah disetujui dan aktual bernilai true?

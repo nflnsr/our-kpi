@@ -39,6 +39,26 @@
     --radius: 0.5rem;
   }
 
+  ::-webkit-scrollbar {
+    @apply absolute w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-200 rounded-full sm:bg-gray-300;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-blue-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-blue-300;
+  }
+
+  * {
+    @apply scroll-m-16 lg:scroll-m-12;
+  }
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;

@@ -1,13 +1,10 @@
 import { Layout } from "@/components/layout";
 import { Input } from "@/components/ui/input";
-import { authService } from "@/config/auth";
 import { useAuth } from "@/hooks/useAuth";
-// import { authService } from "@/config/auth";
 import { axiosInstance } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 type Inputs = {
   email: string;
@@ -17,24 +14,37 @@ type Inputs = {
 function LoginPage() {
   const { setAuthData } = useAuth();
   const { register, handleSubmit } = useForm<Inputs>();
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-  
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: { email: string; password: string }) => {
       const res = await axiosInstance.post("/auth/login", data, {
         withCredentials: true,
       });
-      return { access_token: res.data.access_token, email: data.email };
+      console.log(res.data, "res.dataaa login")
+      return {
+        email: data.email,
+        user_role: res.data.user_role,
+        access_token: res.data.access_token,
+        expires_in: res.data.expires_in,
+      };
     },
-    onSuccess: async (data: { access_token: string; email: string }) => {
-      authService.storeToken(data.access_token);
+    onSuccess: async (data: {
+      email: string;
+      user_role: 'admin' | 'karyawan';
+      access_token: string;
+      expires_in: number;
+    }) => {
+      // authService.storeToken(data.access_token);
       setAuthData({
         email: data.email,
+        role: data.user_role,
         isAuth: true,
         accessToken: data.access_token,
+        expiry: data.expires_in,
       });
       navigate(from, { replace: true });
     },
@@ -84,7 +94,7 @@ function LoginPage() {
             </div>
           </div>
           <button
-            className="w-64 py-2 text-lg font-semibold text-white bg-blue-400 rounded-lg"
+            className="w-64 py-2 text-lg font-semibold text-white bg-blue-400 rounded-lg disabled:opacity-75"
             disabled={isPending}
           >
             Login
