@@ -21,7 +21,7 @@ function Rekomendasi() {
   return (
     <Layout
       pageScroll={false}
-      className="grid min-h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] place-items-center px-2 py-4 sm:min-h-[calc(100svh-var(--header-height-lg)-var(--footer-height))] relative"
+      className="relative grid min-h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] place-items-center px-2 py-4 sm:min-h-[calc(100svh-var(--header-height-lg)-var(--footer-height))]"
     >
       <button
         className="absolute left-5 top-3 rounded-md bg-blue-400 px-4 py-0.5 pb-1 text-white sm:left-10 lg:left-20 xl:left-40"
@@ -30,7 +30,7 @@ function Rekomendasi() {
         kembali
       </button>
       <div
-        className={`${isLoading && "absolute left-1/2 top-44 -translate-x-1/2 text-center sm:top-32"}`}
+        className={`${isLoading && "absolute left-1/2 top-10  -translate-x-1/2 text-center sm:top-32"}`}
       >
         <h1 className="text-2xl font-bold text-center">Rekomendasi</h1>
         <p className="px-2 pb-5 text-center">
