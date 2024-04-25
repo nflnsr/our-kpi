@@ -61,15 +61,15 @@ export function DashboardTable({
   componentRef?: MutableRefObject<ReactInstance | null>;
   // user: string;
 }) {
-  console.log(data, "data cari laporan id")
+  console.log(data, "data cari laporan id");
   const { authData } = useAuth();
   const [isiPenilaianAdmin, setIsiPenilaianAdmin] = useState(false);
   const { state } = useLocation();
-  console.log(state, "stateee")
+  console.log(state, "stateee");
   const axiosPrivate = useAxiosPrivate();
   const queryClient = useQueryClient();
   const searchParams = useParams();
-  console.log(searchParams, "bulan")
+  console.log(searchParams, "bulan");
   const { toast } = useToast();
   const [selectToEdit, setSelectToEdit] = useState<{
     penilaian_id: string;
@@ -141,7 +141,9 @@ export function DashboardTable({
       },
       onSuccess: async () => {
         queryClient.invalidateQueries({
-          queryKey: [`penilaian-${searchParams.bulan}-${state?.departement_id}`],
+          queryKey: [
+            `penilaian-${searchParams.bulan}-${state?.departement_id}`,
+          ],
         });
         toast({
           title: "Edit success!",
@@ -166,7 +168,7 @@ export function DashboardTable({
 
   const { mutate: mutateSetujuiAdmin, isPending: isPendingSetujui } =
     useMutation({
-      mutationFn: async (data: { laporan_id: string; }) => {
+      mutationFn: async (data: { laporan_id: string }) => {
         return await axiosPrivate.post(
           `/laporan/${data.laporan_id}/setuju`,
           { _method: "PATCH", setuju: 1 },
@@ -177,7 +179,9 @@ export function DashboardTable({
       },
       onSuccess: async () => {
         queryClient.invalidateQueries({
-          queryKey: [`penilaian-${searchParams.bulan}-${state?.departement_id}`],
+          queryKey: [
+            `penilaian-${searchParams.bulan}-${state?.departement_id}`,
+          ],
         });
         toast({
           title: "Edit success!",
@@ -249,9 +253,13 @@ export function DashboardTable({
           {Array.from({ length: total ? total : 1 }, (_, n) => (
             <React.Fragment key={n}>
               {authData.role === "admin" && (
-                <h1 className="text-lg font-semibold text-center">
-                  {data?.[n]?.user ? `Email User : ${data?.[n]?.user}` : null}
-                </h1>
+                <>
+                  {data?.[n]?.user ? (
+                    <h1 className="text-lg font-semibold text-center">
+                      Email User : ${data?.[n]?.user}
+                    </h1>
+                  ) : null}
+                </>
               )}
               <div className="relative w-full my-2 overflow-auto border-2 rounded-lg">
                 <Table className="rounded-lg">
@@ -468,7 +476,9 @@ export function DashboardTable({
                                               title: itemTitle[i] as string,
                                               aktual: String(item?.aktual),
                                               keterangan: String(
-                                                item?.keterangan ? item?.keterangan : "",
+                                                item?.keterangan
+                                                  ? item?.keterangan
+                                                  : "",
                                               ),
                                             });
                                           }}
@@ -749,7 +759,7 @@ export function DashboardTable({
                                   <TableCell className="w-full px-0 py-3.5 text-center ring-1 ring-slate-300">
                                     {item?.target}
                                   </TableCell>
-                                  <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300 text-center">
+                                  <TableCell className="w-full px-2 py-3.5 text-center ring-1 ring-slate-300">
                                     {item?.aktual}
                                   </TableCell>
                                   <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300">
@@ -775,7 +785,7 @@ export function DashboardTable({
                                     <TableCell className="w-full px-0 py-3.5 text-center ring-1 ring-slate-300">
                                       {item?.target}
                                     </TableCell>
-                                    <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300 text-center">
+                                    <TableCell className="w-full px-2 py-3.5 text-center ring-1 ring-slate-300">
                                       {item?.aktual}
                                     </TableCell>
                                     <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300">
@@ -893,16 +903,20 @@ export function DashboardTable({
                   </TableBody>
                 </Table>
               </div>
-              {authData.role === "admin" && tableType === "penilaian" && data?.[n]?.user && (
-                <Button
-                  type="button"
-                  disabled={isPendingSetujui}
-                  className="w-full bg-green-500 hover:bg-green-400 disabled:bg-opacity-65"
-                  onClick={() => mutateSetujuiAdmin({laporan_id: data?.[n]?.laporan_id})}
-                >
-                  Setujui
-                </Button>
-              )}
+              {authData.role === "admin" &&
+                tableType === "penilaian" &&
+                data?.[n]?.user && (
+                  <Button
+                    type="button"
+                    disabled={isPendingSetujui}
+                    className="w-full bg-green-500 hover:bg-green-400 disabled:bg-opacity-65"
+                    onClick={() =>
+                      mutateSetujuiAdmin({ laporan_id: data?.[n]?.laporan_id })
+                    }
+                  >
+                    Setujui
+                  </Button>
+                )}
             </React.Fragment>
           ))}
         </>

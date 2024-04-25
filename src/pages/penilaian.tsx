@@ -39,7 +39,7 @@ function Penilaian() {
         kembali
       </button>
       <div
-        className={`${isLoading && "absolute left-1/2 top-44 -translate-x-1/2 text-center sm:top-32"}`}
+        className={`${isLoading && "absolute left-1/2 top-10  -translate-x-1/2 text-center sm:top-32"}`}
       >
         <h1 className="text-2xl font-bold text-center">Penilaian</h1>
         <p className="px-2 pb-5 text-center">
