@@ -1,34 +1,51 @@
+import { AuthDataType } from "@/provider/auth-provider";
 import { useState } from "react";
 
 function returnInitialState(storageKey: string) {
   try {
-    // Get from local storage by key
+    const initState = {
+      email: "",
+      role: "",
+      isAuth: false,
+      accessToken: "",
+      expiry: 0,
+    };
     const item = window.localStorage.getItem(storageKey);
-    // Parse stored json or if none return an empty object
-    return item ? JSON.parse(item) : false;
+    if (item) {
+      const dateNow = new Date().getTime();
+      const parsedItem = JSON.parse(item);
+      if (parsedItem.expiry < dateNow) {
+        window.localStorage.removeItem(storageKey);
+        return initState;
+      }
+      return parsedItem;
+    }
+    return initState;
   } catch (error) {
-    // If error also return an empty object
     console.log(error);
     return false;
   }
 }
 
-function useLocalStorage(storageKey: string) {
-  const [storedValue, setStoredValue] = useState(
+function useLocalStorage(
+  storageKey: string,
+): [AuthDataType, React.Dispatch<React.SetStateAction<AuthDataType>>] {
+  const [storedValue, setStoredValue] = useState<AuthDataType>(
     returnInitialState(storageKey),
   );
 
-  const setValue = (value: unknown) => {
+  const setValue: typeof setStoredValue = (value: unknown) => {
     try {
-      // Allow value to be a function so we have same API as useState
+      const dateNow = new Date().getTime();
       const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      // Save to local storage
+        value instanceof Function
+          ? value(storedValue)
+          : { ...(value as object), expiry: dateNow + (value as { expiry: number }).expiry * 1000 * 60};
+          console.log(dateNow, "dateNow")
+          console.log(dateNow + (value as { expiry: number }).expiry, "dateNow + (value as { expiry: number }).expiry")
       window.localStorage.setItem(storageKey, JSON.stringify(valueToStore));
-      // Save state
       setStoredValue(valueToStore);
     } catch (error) {
-      // A more advanced implementation would handle the error case
       console.log(error);
     }
   };

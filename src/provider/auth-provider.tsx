@@ -1,11 +1,13 @@
-// import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import React, { createContext } from "react";
-import { useState } from "react";
+// import { useState } from "react";
 
-type AuthDataType = {
+export type AuthDataType = {
   email: string;
+  role: 'admin' | 'karyawan' | "";
   isAuth: boolean;
   accessToken: string;
+  expiry: number;
 }
 
 export const AuthContext = createContext<{
@@ -14,24 +16,20 @@ export const AuthContext = createContext<{
 }>({
   authData: {
     email: "",
+    role: "",
     isAuth: false,
     accessToken: "",
+    expiry: 0,
   },
   setAuthData: () => {}
 });
 
-function AuthProvider({ children }: { children: React.ReactNode }) {
-  // const [isAuth, setIsAuth] = useLocalStorage(storageKey);
-  const [authData, setAuthData] = useState<AuthDataType>({
-    email: "",
-    isAuth: false,
-    accessToken: "",
-  });
-console.log(authData, "authDataaa")
+function AuthProvider({ children, storageKey }: { children: React.ReactNode; storageKey: string }) {
+  const [authData, setAuthData] = useLocalStorage(storageKey);
   return (
     <AuthContext.Provider
       value={{
-        authData,
+        authData ,
         setAuthData,
       }}
     >

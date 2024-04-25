@@ -15,20 +15,21 @@ export function Header() {
         </Link>
       </div>
       {authData.isAuth ? (
-        <div className="flex flex-col gap-4 font-semibold text-center text-white sm:flex-row sm:gap-5">
+        <div
+          className="flex flex-col gap-4 font-semibold text-center text-white sm:flex-row sm:gap-5"
+          onClick={() => {
+            setAuthData({
+              email: "",
+              role: "",
+              isAuth: false,
+              accessToken: "",
+              expiry: 0,
+            });
+            authService.removeToken();
+          }}
+        >
           <Link to="/" className="px-8 py-2 rounded-lg bg-sky-400">
-            <button
-              onClick={() => {
-                setAuthData({
-                  email: "",
-                  isAuth: false,
-                  accessToken: "",
-                });
-                authService.removeToken();
-              }}
-            >
-              Logout
-            </button>
+            <button>Logout</button>
           </Link>
         </div>
       ) : (

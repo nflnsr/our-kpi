@@ -1,4 +1,10 @@
-import { Routes, Route, Navigate, useNavigate, NavigateFunction } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  NavigateFunction,
+} from "react-router-dom";
 
 import ProtectedRoute from "@/routes/protected-route";
 import PrivateRoute from "@/routes/private-route";
@@ -8,12 +14,17 @@ import LoginPage from "@/pages/login-page";
 import RegisterPage from "@/pages/register-page";
 import Dashboard from "@/pages/dashboard";
 import Notfound from "@/pages/not-found";
+import Penilaian from "@/pages/penilaian";
+import Laporan from "@/pages/laporan";
+import Rekomendasi from "@/pages/rekomendasi";
+import Month from "@/pages/month";
+import Departements from "@/pages/departements";
 
 function Index() {
   const navigate = useNavigate();
   const globalRoute = {
     navigate: navigate as NavigateFunction,
-  };  
+  };
   globalRoute.navigate = navigate;
   return (
     <Routes>
@@ -24,6 +35,18 @@ function Index() {
       </Route>
       <Route path="/" element={<PrivateRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/penilaians" element={<Month />} />
+        <Route path="/penilaians/:bulan" element={<Penilaian />} />
+        <Route path="/penilaians/admin" element={<Departements />} />
+        <Route path="/penilaians/admin/:departements" element={<Month />} />
+        <Route path="/penilaians/admin/:departements/:bulan" element={<Penilaian />} />
+        <Route path="/laporan" element={<Month />} />
+        <Route path="/laporan/:bulan" element={<Laporan />} />
+        <Route path="/laporan/admin" element={<Departements />} />
+        <Route path="/laporan/admin/:departements" element={<Month />} />
+        <Route path="/laporan/admin/:departements/:bulan" element={<Laporan />} />
+        <Route path="/rekomendasi" element={<Month />} />
+        <Route path="/rekomendasi/:bulan" element={<Rekomendasi />} />
       </Route>
       <Route>
         <Route path="/404" element={<Notfound />} />
