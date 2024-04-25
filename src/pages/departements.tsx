@@ -53,10 +53,10 @@ const Departements = () => {
       return data;
     },
   });
-  console.log(data, "departemen")
-  
+  console.log(data, "departemen");
+
   return (
-    <Layout className="grid min-h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] place-items-center relative sm:min-h-[calc(100svh-var(--header-height-lg)-var(--footer-height))]">
+    <Layout className="relative grid min-h-[calc(100svh-var(--header-height-sm)-var(--footer-height))] place-items-center sm:min-h-[calc(100svh-var(--header-height-lg)-var(--footer-height))]">
       <button
         className="absolute left-5 top-3 rounded-md bg-blue-400 px-4 py-0.5 pb-1 text-white sm:left-10 lg:left-20 xl:left-40"
         onClick={() => navigate(-1)}
@@ -64,16 +64,21 @@ const Departements = () => {
         kembali
       </button>
       <ul className="flex flex-col items-center justify-center gap-1 py-2.5 text-lg underline decoration-slate-400">
-        {data?.data?.map((departement, i) => (
-          <li key={i}>
-            <Link
-              to={`${pathname}/${departement.departements_id}`}
-              state={{ departement_id: departement.departements_id }}
-            >
-              {departement?.departements_name}
-            </Link>
-          </li>
-        ))}
+        {data?.data?.map(
+          (
+            departement: { departements_id: string; departements_name: string },
+            i: number,
+          ) => (
+            <li key={i}>
+              <Link
+                to={`${pathname}/${departement.departements_id}`}
+                state={{ departement_id: departement.departements_id }}
+              >
+                {departement?.departements_name}
+              </Link>
+            </li>
+          ),
+        )}
       </ul>
     </Layout>
   );
