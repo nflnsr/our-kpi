@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
-import { useEffect, useState } from "react";
+import { MutableRefObject, ReactInstance, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,7 @@ import {
 import { useToast } from "./ui/use-toast";
 import React from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 type Inputs = {
   aktual: string;
@@ -37,10 +37,12 @@ export function DashboardTable({
   total,
   isLoading,
   tableType,
+  // componentRef,
 }: {
   data: [
     {
       user: string;
+      laporan_id: string;
       klausuls: string[];
       klausulItems: {
         penilaian_id: string;
@@ -56,14 +58,18 @@ export function DashboardTable({
   total: number;
   isLoading: boolean;
   tableType: "penilaian" | "laporan" | "rekomendasi";
+  componentRef?: MutableRefObject<ReactInstance | null>;
   // user: string;
 }) {
+  console.log(data, "data cari laporan id")
   const { authData } = useAuth();
-  console.log(authData, "authDataaaa");
   const [isiPenilaianAdmin, setIsiPenilaianAdmin] = useState(false);
+  const { state } = useLocation();
+  console.log(state, "stateee")
   const axiosPrivate = useAxiosPrivate();
   const queryClient = useQueryClient();
   const searchParams = useParams();
+  console.log(searchParams, "bulan")
   const { toast } = useToast();
   const [selectToEdit, setSelectToEdit] = useState<{
     penilaian_id: string;
@@ -122,76 +128,105 @@ export function DashboardTable({
     mutate(data);
   };
 
-  const { mutate: mutateRekomendasiAdmin, isPending: isPendingRekomendasi } = useMutation({
-    mutationFn: async (data: { rekomendasi: string }) => {
-      return await axiosPrivate.post(
-        `/penilaians/${selectToEdit.penilaian_id}/rekomendasi`,
-        { ...data, _method: "PATCH" },
-        {
-          withCredentials: true,
-        },
-      );
-    },
-    onSuccess: async () => {
-      queryClient.invalidateQueries({
-        queryKey: [`penilaian-${searchParams.bulan}`],
-      });
-      toast({
-        title: "Edit success!",
-        className: "bg-white text-green-600 border-green-500 border-2",
-        description: "Wait the data to change",
-        duration: 5000,
-      });
-    },
-    onError: async (error) => {
-      toast({
-        title: "Edit failed!",
-        className: "bg-white text-red-600 border-red-500 border-2",
-        description: error.message,
-        duration: 5000,
-      });
-    },
-  });
+  const { mutate: mutateRekomendasiAdmin, isPending: isPendingRekomendasi } =
+    useMutation({
+      mutationFn: async (data: { rekomendasi: string }) => {
+        return await axiosPrivate.post(
+          `/penilaians/${selectToEdit.penilaian_id}/rekomendasi`,
+          { ...data, _method: "PATCH" },
+          {
+            withCredentials: true,
+          },
+        );
+      },
+      onSuccess: async () => {
+        queryClient.invalidateQueries({
+          queryKey: [`penilaian-${searchParams.bulan}-${state?.departement_id}`],
+        });
+        toast({
+          title: "Edit success!",
+          className: "bg-white text-green-600 border-green-500 border-2",
+          description: "Wait the data to change",
+          duration: 5000,
+        });
+      },
+      onError: async (error) => {
+        toast({
+          title: "Edit failed!",
+          className: "bg-white text-red-600 border-red-500 border-2",
+          description: error.message,
+          duration: 5000,
+        });
+      },
+    });
 
   const onSubmitRekomendasiAdmin: SubmitHandler<Inputs> = (data) => {
     mutateRekomendasiAdmin(data);
   };
 
-  const { mutate: mutateSetujuiAdmin, isPending: isPendingSetujui } = useMutation({
-    mutationFn: async () => {
-      return await axiosPrivate.post(
-        `/penilaians/${selectToEdit.penilaian_id}/setuju`,
-        { _method: "PATCH", setuju: 1 },
-        {
-          withCredentials: true,
-        },
-      );
-    },
-    onSuccess: async () => {
-      queryClient.invalidateQueries({
-        queryKey: [`penilaian-${searchParams.bulan}`],
-      });
-      toast({
-        title: "Edit success!",
-        className: "bg-white text-green-600 border-green-500 border-2",
-        description: "Wait the data to change",
-        duration: 5000,
-      });
-    },
-    onError: async (error) => {
-      toast({
-        title: "Edit failed!",
-        className: "bg-white text-red-600 border-red-500 border-2",
-        description: error.message,
-        duration: 5000,
-      });
-    },
-  });
+  const { mutate: mutateSetujuiAdmin, isPending: isPendingSetujui } =
+    useMutation({
+      mutationFn: async (data: { laporan_id: string; }) => {
+        return await axiosPrivate.post(
+          `/laporan/${data.laporan_id}/setuju`,
+          { _method: "PATCH", setuju: 1 },
+          {
+            withCredentials: true,
+          },
+        );
+      },
+      onSuccess: async () => {
+        queryClient.invalidateQueries({
+          queryKey: [`penilaian-${searchParams.bulan}-${state?.departement_id}`],
+        });
+        toast({
+          title: "Edit success!",
+          className: "bg-white text-green-600 border-green-500 border-2",
+          description: "Wait the data to change",
+          duration: 5000,
+        });
+      },
+      onError: async (error) => {
+        toast({
+          title: "Edit failed!",
+          className: "bg-white text-red-600 border-red-500 border-2",
+          description: error.message,
+          duration: 5000,
+        });
+      },
+    });
 
   useEffect(() => {
-    {data?.map((item) =>  item?.klausulItems.map((itemLagi) => itemLagi.find(
-      (item3) => (tableType === 'penilaian' && authData.role === 'karyawan' && item3?.target && setIsiPenilaianAdmin(true)) || (tableType === 'penilaian' && authData.role === 'admin' && item3?.aktual && !item3?.disetujui && setIsiPenilaianAdmin(true)) || (tableType === 'laporan' && authData.role === 'karyawan' && item3?.disetujui && setIsiPenilaianAdmin(true)) || (tableType === 'laporan' && authData.role === 'admin' && item3?.disetujui && setIsiPenilaianAdmin(true)) || (tableType === 'rekomendasi' && authData.role === 'karyawan' && item3?.rekomendasi && setIsiPenilaianAdmin(true))
-    )))}
+    {
+      data?.map((item) =>
+        item?.klausulItems.map((itemLagi) =>
+          itemLagi.find(
+            (item3) =>
+              (tableType === "penilaian" &&
+                authData.role === "karyawan" &&
+                item3?.target &&
+                setIsiPenilaianAdmin(true)) ||
+              (tableType === "penilaian" &&
+                authData.role === "admin" &&
+                // item3?.aktual &&
+                !item3?.disetujui &&
+                setIsiPenilaianAdmin(true)) ||
+              (tableType === "laporan" &&
+                authData.role === "karyawan" &&
+                item3?.disetujui &&
+                setIsiPenilaianAdmin(true)) ||
+              (tableType === "laporan" &&
+                authData.role === "admin" &&
+                item3?.disetujui &&
+                setIsiPenilaianAdmin(true)) ||
+              (tableType === "rekomendasi" &&
+                authData.role === "karyawan" &&
+                item3?.rekomendasi &&
+                setIsiPenilaianAdmin(true)),
+          ),
+        ),
+      );
+    }
     // setIsiPenilaianAdmin(false)
   }, [authData.role, data, isiPenilaianAdmin, tableType, total]);
 
@@ -214,8 +249,8 @@ export function DashboardTable({
           {Array.from({ length: total ? total : 1 }, (_, n) => (
             <React.Fragment key={n}>
               {authData.role === "admin" && (
-                <h1 className="text-lg font-semibold">
-                  Email User : {data?.[n]?.user}
+                <h1 className="text-lg font-semibold text-center">
+                  {data?.[n]?.user ? `Email User : ${data?.[n]?.user}` : null}
                 </h1>
               )}
               <div className="relative w-full my-2 overflow-auto border-2 rounded-lg">
@@ -265,7 +300,7 @@ export function DashboardTable({
                           (item) =>
                             tableType === "penilaian" &&
                             authData.role === "admin" &&
-                            item?.aktual &&
+                            // item?.aktual &&
                             !item?.disetujui,
                         ) && (
                           <TableRow
@@ -306,7 +341,7 @@ export function DashboardTable({
                             );
                           }
                         })} */}
-                        
+
                         {data?.[n]?.klausulItems[i].find(
                           (item) => item?.disetujui && tableType === "laporan",
                         ) && (
@@ -409,7 +444,7 @@ export function DashboardTable({
                                       </TableCell>
                                       <TableCell className="ring-1 ring-slate-300">
                                         <DialogTrigger
-                                          className="w-full break-words px-2 py-3.5 text-left"
+                                          className="w-full break-words px-2 py-3.5 text-center"
                                           onClick={() => {
                                             handleEdit({
                                               penilaian_id: item.penilaian_id,
@@ -433,7 +468,7 @@ export function DashboardTable({
                                               title: itemTitle[i] as string,
                                               aktual: String(item?.aktual),
                                               keterangan: String(
-                                                item?.keterangan,
+                                                item?.keterangan ? item?.keterangan : "",
                                               ),
                                             });
                                           }}
@@ -477,6 +512,10 @@ export function DashboardTable({
                                                   </Label>
                                                   <Input
                                                     id="aktual"
+                                                    type="number"
+                                                    required
+                                                    min={0}
+                                                    max={10}
                                                     {...register("aktual")}
                                                     className="col-span-3"
                                                     defaultValue={
@@ -518,9 +557,8 @@ export function DashboardTable({
                                 )}
                               {tableType === "penilaian" &&
                                 authData.role === "admin" &&
-                                item?.aktual &&
-                                !item?.disetujui &&
-                                 (
+                                // item?.aktual &&
+                                !item?.disetujui && (
                                   <TableRow className="py-0 h-fit bg-gray-50 hover:bg-gray-100">
                                     <Dialog>
                                       <TableCell className="ring-1 ring-slate-300">
@@ -567,7 +605,7 @@ export function DashboardTable({
                                       </TableCell>
                                       <TableCell className="ring-1 ring-slate-300">
                                         <DialogTrigger
-                                          className="w-full break-words px-2 py-3.5 text-left"
+                                          className="w-full break-words px-2 py-3.5 text-center"
                                           onClick={() => {
                                             handleEdit({
                                               penilaian_id: item.penilaian_id,
@@ -633,7 +671,8 @@ export function DashboardTable({
                                             )}
                                             className="grid gap-4 py-4"
                                           >
-                                            {(isPendingRekomendasi || isPendingSetujui) && (
+                                            {(isPendingRekomendasi ||
+                                              isPendingSetujui) && (
                                               <>
                                                 <div className="relative">
                                                   <p className="absolute pb-2 text-center -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ">
@@ -643,14 +682,17 @@ export function DashboardTable({
                                                 </div>
                                               </>
                                             )}
-                                            {!(isPendingRekomendasi || isPendingSetujui) && (
+                                            {!(
+                                              isPendingRekomendasi ||
+                                              isPendingSetujui
+                                            ) && (
                                               <>
                                                 {/* <div className="flex flex-col items-center grid-cols-4 gap-4 sm:grid">
                                                   <Button className="w-full">
                                                     Setujui
                                                   </Button>
                                                 </div> */}
-                                                <div className="pt-2">
+                                                {/* <div className="pt-2">
                                                   <Button
                                                     type="button"
                                                     className="w-full bg-green-500 hover:bg-green-400"
@@ -660,7 +702,7 @@ export function DashboardTable({
                                                   >
                                                     Setujui
                                                   </Button>
-                                                </div>
+                                                </div> */}
                                                 <div className="flex flex-col items-center grid-cols-4 gap-4 sm:grid">
                                                   <Label
                                                     htmlFor="rekomendasi"
@@ -694,138 +736,25 @@ export function DashboardTable({
                               authData.role === "admin" &&
                               item?.disetujui ? (
                                 <TableRow className="py-0 h-fit bg-gray-50 hover:bg-gray-100">
-                                  <Dialog>
-                                    <TableCell className="ring-1 ring-slate-300">
-                                      {itemTitle?.map((title, j) => (
-                                        <p
-                                          key={j}
-                                          className={`h-full py-0 ${j > 0 && "pl-2"}`}
-                                        >
-                                          <DialogTrigger
-                                            className="w-full p-2 text-left"
-                                            onClick={() => {
-                                              handleEdit({
-                                                penilaian_id: item.penilaian_id,
-                                                title: title as string,
-                                                aktual: String(item?.aktual),
-                                                keterangan: String(
-                                                  item?.keterangan,
-                                                ),
-                                              });
-                                            }}
-                                          >
-                                            {title}
-                                          </DialogTrigger>
-                                        </p>
-                                      ))}
-                                    </TableCell>
-                                    <TableCell className="px-0 text-center ring-1 ring-slate-300">
-                                      <DialogTrigger
-                                        className="w-full px-2 py-3.5"
-                                        onClick={() => {
-                                          handleEdit({
-                                            penilaian_id: item.penilaian_id,
-                                            title: itemTitle[i] as string,
-                                            aktual: String(item?.aktual),
-                                            keterangan: String(
-                                              item?.keterangan,
-                                            ),
-                                          });
-                                        }}
+                                  <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300">
+                                    {itemTitle?.map((title, j) => (
+                                      <p
+                                        key={j}
+                                        className={`h-full py-0 ${j > 0 && "pl-2"}`}
                                       >
-                                        {item?.target}
-                                      </DialogTrigger>
-                                    </TableCell>
-                                    <TableCell className="ring-1 ring-slate-300">
-                                      <DialogTrigger
-                                        className="w-full break-words px-2 py-3.5 text-left"
-                                        onClick={() => {
-                                          handleEdit({
-                                            penilaian_id: item.penilaian_id,
-                                            title: itemTitle[i] as string,
-                                            aktual: String(item?.aktual),
-                                            keterangan: String(
-                                              item?.keterangan,
-                                            ),
-                                          });
-                                        }}
-                                      >
-                                        {item?.aktual}
-                                      </DialogTrigger>
-                                    </TableCell>
-                                    <TableCell className="ring-1 ring-slate-300">
-                                      <DialogTrigger
-                                        className="h-full w-full break-words px-2 py-3.5 text-left"
-                                        onClick={() => {
-                                          handleEdit({
-                                            penilaian_id: item.penilaian_id,
-                                            title: itemTitle[i] as string,
-                                            aktual: String(item?.aktual),
-                                            keterangan: String(
-                                              item?.keterangan,
-                                            ),
-                                          });
-                                        }}
-                                      >
-                                        {item?.keterangan}
-                                      </DialogTrigger>
-                                    </TableCell>
-                                    <DialogContent>
-                                      <form
-                                        onSubmit={handleSubmit(onSubmit)}
-                                        className="grid gap-4 py-4"
-                                      >
-                                        {isPending && (
-                                          <>
-                                            <div className="relative">
-                                              <p className="absolute pb-2 text-center -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ">
-                                                Loading...
-                                              </p>
-                                              <div className="w-32 h-32 mx-auto border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
-                                            </div>
-                                          </>
-                                        )}
-                                        {!isPending && (
-                                          <>
-                                            <div className="flex flex-col items-center grid-cols-4 gap-4 sm:grid">
-                                              <Label
-                                                htmlFor="aktual"
-                                                className="text-right"
-                                              >
-                                                Aktual
-                                              </Label>
-                                              <Input
-                                                id="aktual"
-                                                {...register("aktual")}
-                                                className="col-span-3"
-                                              />
-                                            </div>
-                                            <div className="flex flex-col items-center grid-cols-4 gap-4 sm:grid">
-                                              <Label
-                                                htmlFor="keterangan"
-                                                className="text-right"
-                                              >
-                                                Keterangan
-                                              </Label>
-                                              <Input
-                                                id="keterangan"
-                                                {...register("keterangan")}
-                                                className="col-span-3"
-                                              />
-                                            </div>
-                                            <div className="pt-2">
-                                              <Button
-                                                type="submit"
-                                                className="w-full"
-                                              >
-                                                Submit
-                                              </Button>
-                                            </div>
-                                          </>
-                                        )}
-                                      </form>
-                                    </DialogContent>
-                                  </Dialog>
+                                        {title}
+                                      </p>
+                                    ))}
+                                  </TableCell>
+                                  <TableCell className="w-full px-0 py-3.5 text-center ring-1 ring-slate-300">
+                                    {item?.target}
+                                  </TableCell>
+                                  <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300 text-center">
+                                    {item?.aktual}
+                                  </TableCell>
+                                  <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300">
+                                    {item?.keterangan}
+                                  </TableCell>
                                 </TableRow>
                               ) : null}
                               {tableType === "laporan" &&
@@ -833,80 +762,24 @@ export function DashboardTable({
                               item?.disetujui ? (
                                 <TableRow className="py-0 h-fit bg-gray-50 hover:bg-gray-100">
                                   <Dialog>
-                                    <TableCell className="ring-1 ring-slate-300">
+                                    <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300">
                                       {itemTitle?.map((title, j) => (
                                         <p
                                           key={j}
                                           className={`h-full py-0 ${j > 0 && "pl-2"}`}
                                         >
-                                          <DialogTrigger
-                                            className="w-full p-2 text-left"
-                                            onClick={() => {
-                                              handleEdit({
-                                                penilaian_id: item.penilaian_id,
-                                                title: title as string,
-                                                aktual: String(item?.aktual),
-                                                keterangan: String(
-                                                  item?.keterangan,
-                                                ),
-                                              });
-                                            }}
-                                          >
-                                            {title}
-                                          </DialogTrigger>
+                                          {title}
                                         </p>
                                       ))}
                                     </TableCell>
-                                    <TableCell className="px-0 text-center ring-1 ring-slate-300">
-                                      <DialogTrigger
-                                        className="w-full px-2 py-3.5"
-                                        onClick={() => {
-                                          handleEdit({
-                                            penilaian_id: item.penilaian_id,
-                                            title: itemTitle[i] as string,
-                                            aktual: String(item?.aktual),
-                                            keterangan: String(
-                                              item?.keterangan,
-                                            ),
-                                          });
-                                        }}
-                                      >
-                                        {item?.target}
-                                      </DialogTrigger>
+                                    <TableCell className="w-full px-0 py-3.5 text-center ring-1 ring-slate-300">
+                                      {item?.target}
                                     </TableCell>
-                                    <TableCell className="ring-1 ring-slate-300">
-                                      <DialogTrigger
-                                        className="w-full break-words px-2 py-3.5 text-left"
-                                        onClick={() => {
-                                          handleEdit({
-                                            penilaian_id: item.penilaian_id,
-                                            title: itemTitle[i] as string,
-                                            aktual: String(item?.aktual),
-                                            keterangan: String(
-                                              item?.keterangan,
-                                            ),
-                                          });
-                                        }}
-                                      >
-                                        {item?.aktual}
-                                      </DialogTrigger>
+                                    <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300 text-center">
+                                      {item?.aktual}
                                     </TableCell>
-                                    <TableCell className="ring-1 ring-slate-300">
-                                      <DialogTrigger
-                                        className="h-full w-full break-words px-2 py-3.5 text-left"
-                                        onClick={() => {
-                                          handleEdit({
-                                            penilaian_id: item.penilaian_id,
-                                            title: itemTitle[i] as string,
-                                            aktual: String(item?.aktual),
-                                            keterangan: String(
-                                              item?.keterangan,
-                                            ),
-                                          });
-                                        }}
-                                      >
-                                        {item?.keterangan}
-                                      </DialogTrigger>
+                                    <TableCell className="w-full px-2 py-3.5 ring-1 ring-slate-300">
+                                      {item?.keterangan}
                                     </TableCell>
                                     <DialogContent>
                                       <form
@@ -934,6 +807,9 @@ export function DashboardTable({
                                               </Label>
                                               <Input
                                                 id="aktual"
+                                                required
+                                                min={0}
+                                                max={10}
                                                 {...register("aktual")}
                                                 className="col-span-3"
                                               />
@@ -983,7 +859,7 @@ export function DashboardTable({
                                   <TableCell className="h-full break-words px-0 py-3.5 text-center ring-1 ring-slate-300">
                                     {item?.target}
                                   </TableCell>
-                                  <TableCell className="h-full break-words px-2 py-3.5 text-left ring-1 ring-slate-300">
+                                  <TableCell className="h-full break-words px-2 py-3.5 text-center ring-1 ring-slate-300">
                                     {item?.aktual}
                                   </TableCell>
                                   <TableCell className="h-full break-words px-2 py-3.5 text-left ring-1 ring-slate-300">
@@ -1007,13 +883,26 @@ export function DashboardTable({
                           colSpan={5}
                           className="h-20 px-2 text-lg text-center sm:py-1"
                         >
-                          Tidak ada data yang tersedia
+                          {tableType === "penilaian" &&
+                          authData.role === "karyawan"
+                            ? "Data sudah disetujui Admin"
+                            : "Tidak ada data yang tersedia"}
                         </TableCell>
                       </TableRow>
                     )}
                   </TableBody>
                 </Table>
               </div>
+              {authData.role === "admin" && tableType === "penilaian" && data?.[n]?.user && (
+                <Button
+                  type="button"
+                  disabled={isPendingSetujui}
+                  className="w-full bg-green-500 hover:bg-green-400 disabled:bg-opacity-65"
+                  onClick={() => mutateSetujuiAdmin({laporan_id: data?.[n]?.laporan_id})}
+                >
+                  Setujui
+                </Button>
+              )}
             </React.Fragment>
           ))}
         </>

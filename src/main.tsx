@@ -11,6 +11,8 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: false,
+      gcTime: 6500, //lama waktu cache disimpan sejak data didapat
+      //staleTime: 2000, //delay waktu sebelum harus fetch ulang di background. update ui secara diam-diam. ditrackingnya pake property isFetching
     },
   },
 });
