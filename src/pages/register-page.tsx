@@ -65,7 +65,6 @@ function RegisterPage() {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const { confirmPassword, ...newData } = data;
-    console.log(newData);
     if (data.password !== confirmPassword) {
       setError("confirmPassword", {
         type: "manual",

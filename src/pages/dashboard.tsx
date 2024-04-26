@@ -2,25 +2,18 @@ import { Layout } from "@/components/layout";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
-import { useAuth } from "@/hooks/useAuth";
 
 function Dashboard() {
-  // const navigate = useNavigate();
-  const { authData } = useAuth();
-  console.log(authData, "authDatannya")
   const axiosPrivate = useAxiosPrivate();
 
   const { data } = useQuery({
     queryKey: ["dashboard"],
     queryFn: async () => {
       const { data } = await axiosPrivate.get("/auth/me");
-      console.log(data, "dataaaa");
       return data;
     },
     // retry: false,
   });
-  console.log("tes");
-  console.log(data);
 
   return (
     <Layout

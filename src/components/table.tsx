@@ -61,15 +61,12 @@ export function DashboardTable({
   componentRef?: MutableRefObject<ReactInstance | null>;
   // user: string;
 }) {
-  console.log(data, "data cari laporan id");
   const { authData } = useAuth();
   const [isiPenilaianAdmin, setIsiPenilaianAdmin] = useState(false);
   const { state } = useLocation();
-  console.log(state, "stateee");
   const axiosPrivate = useAxiosPrivate();
   const queryClient = useQueryClient();
   const searchParams = useParams();
-  console.log(searchParams, "bulan");
   const { toast } = useToast();
   const [selectToEdit, setSelectToEdit] = useState<{
     penilaian_id: string;
@@ -88,7 +85,6 @@ export function DashboardTable({
     aktual: string;
     keterangan: string;
   }) => {
-    console.log(data);
     setSelectToEdit(data);
   };
 

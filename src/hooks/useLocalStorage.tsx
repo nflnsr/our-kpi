@@ -22,7 +22,6 @@ function returnInitialState(storageKey: string) {
     }
     return initState;
   } catch (error) {
-    console.log(error);
     return false;
   }
 }
@@ -41,12 +40,10 @@ function useLocalStorage(
         value instanceof Function
           ? value(storedValue)
           : { ...(value as object), expiry: dateNow + (value as { expiry: number }).expiry * 1000 * 60};
-          console.log(dateNow, "dateNow")
-          console.log(dateNow + (value as { expiry: number }).expiry, "dateNow + (value as { expiry: number }).expiry")
       window.localStorage.setItem(storageKey, JSON.stringify(valueToStore));
       setStoredValue(valueToStore);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
