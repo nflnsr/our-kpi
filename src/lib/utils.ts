@@ -17,22 +17,3 @@ const axiosPrivateInstance = axios.create({
 
 
 export { axiosInstance, axiosPrivateInstance };
-// axiosPrivateInstance.interceptors.request.use(
-//   (config) => {
-//     const token = Cookies.get("token");
-//     if (token) {
-//       config.headers
-//         ? (config.headers.Authorization = `Bearer ${token}`)
-//         : (config.headers = config.headers || {
-//             Authorization: `Bearer ${token}`,
-//           });
-//     } else {
-//       delete config.headers.Authorization;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     console.log(error);
-//     // return Promise.reject(error);
-//   },
-// );

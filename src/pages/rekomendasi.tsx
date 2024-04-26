@@ -2,14 +2,15 @@ import { Layout } from "@/components/layout";
 import { DashboardTable } from "@/components/table";
 import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 function Rekomendasi() {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const { state } = useLocation();
   const searchParams = useParams();
   const { data, isLoading } = useQuery({
-    queryKey: [`rekomendasi-${searchParams.bulan}`],
+    queryKey: [`penilaian-${searchParams.bulan}-${state.departement_id}`],
     queryFn: async () => {
       const { data } = await axiosPrivate.get(
         `/rekomendasi?months[]=${searchParams.bulan}`,

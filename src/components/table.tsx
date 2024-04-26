@@ -61,15 +61,12 @@ export function DashboardTable({
   componentRef?: MutableRefObject<ReactInstance | null>;
   // user: string;
 }) {
-  console.log(data, "data cari laporan id");
   const { authData } = useAuth();
   const [isiPenilaianAdmin, setIsiPenilaianAdmin] = useState(false);
   const { state } = useLocation();
-  console.log(state, "stateee");
   const axiosPrivate = useAxiosPrivate();
   const queryClient = useQueryClient();
   const searchParams = useParams();
-  console.log(searchParams, "bulan");
   const { toast } = useToast();
   const [selectToEdit, setSelectToEdit] = useState<{
     penilaian_id: string;
@@ -88,7 +85,6 @@ export function DashboardTable({
     aktual: string;
     keterangan: string;
   }) => {
-    console.log(data);
     setSelectToEdit(data);
   };
 
@@ -105,7 +101,7 @@ export function DashboardTable({
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({
-        queryKey: [`penilaian-${searchParams.bulan}`],
+        queryKey: [`penilaian-${searchParams.bulan}-${state.departement_id}`],
       });
       toast({
         title: "Edit success!",
@@ -256,7 +252,7 @@ export function DashboardTable({
                 <>
                   {data?.[n]?.user ? (
                     <h1 className="text-lg font-semibold text-center">
-                      Email User : ${data?.[n]?.user}
+                      Email User : {data?.[n]?.user}
                     </h1>
                   ) : null}
                 </>
@@ -284,6 +280,11 @@ export function DashboardTable({
                               Rekomendasi
                             </TableHead>
                           ))}
+                      {tableType === "rekomendasi" && (
+                        <TableHead className="text-base font-semibold text-center text-slate-700 ring-1 ring-gray-300">
+                          Rekomendasi
+                        </TableHead>
+                      )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -423,7 +424,9 @@ export function DashboardTable({
                                                   title: title as string,
                                                   aktual: String(item?.aktual),
                                                   keterangan: String(
-                                                    item?.keterangan,
+                                                    item?.keterangan
+                                                      ? item?.keterangan
+                                                      : "",
                                                   ),
                                                 });
                                               }}
@@ -442,7 +445,9 @@ export function DashboardTable({
                                               title: itemTitle[i] as string,
                                               aktual: String(item?.aktual),
                                               keterangan: String(
-                                                item?.keterangan,
+                                                item?.keterangan
+                                                  ? item?.keterangan
+                                                  : "",
                                               ),
                                             });
                                           }}
@@ -459,7 +464,9 @@ export function DashboardTable({
                                               title: itemTitle[i] as string,
                                               aktual: String(item?.aktual),
                                               keterangan: String(
-                                                item?.keterangan,
+                                                item?.keterangan
+                                                  ? item?.keterangan
+                                                  : "",
                                               ),
                                             });
                                           }}
@@ -856,28 +863,186 @@ export function DashboardTable({
                               !item?.disetujui &&
                               item?.rekomendasi ? (
                                 <TableRow className="py-0 h-fit bg-gray-50 hover:bg-gray-100">
-                                  <TableCell className="h-full break-words px-2 py-3.5 text-left ring-1 ring-slate-300">
-                                    {itemTitle?.map((title, j) => (
-                                      <p
-                                        key={j}
-                                        className={`h-full py-0 ${j > 0 && "pl-2"}`}
+                                  <Dialog>
+                                    <TableCell className="h-full px-2 text-left break-words ring-1 ring-slate-300">
+                                      {itemTitle?.map((title, j) => (
+                                        <p
+                                          key={j}
+                                          className={`h-full py-0 ${j > 0 && "pl-2"}`}
+                                        >
+                                          <DialogTrigger
+                                            className="w-full p-2 text-left"
+                                            onClick={() => {
+                                              handleEdit({
+                                                penilaian_id: item.penilaian_id,
+                                                title: title as string,
+                                                aktual: String(item?.aktual),
+                                                keterangan: String(
+                                                  item?.keterangan
+                                                    ? item?.keterangan
+                                                    : "",
+                                                ),
+                                              });
+                                            }}
+                                          >
+                                            {title}
+                                          </DialogTrigger>
+                                        </p>
+                                      ))}
+                                    </TableCell>
+                                    <TableCell className="h-full px-0 text-center break-words ring-1 ring-slate-300">
+                                      <DialogTrigger
+                                        className="w-full px-2 py-3.5"
+                                        onClick={() => {
+                                          handleEdit({
+                                            penilaian_id: item.penilaian_id,
+                                            title: itemTitle[i] as string,
+                                            aktual: String(item?.aktual),
+                                            keterangan: String(
+                                              item?.keterangan
+                                                ? item?.keterangan
+                                                : "",
+                                            ),
+                                          });
+                                        }}
                                       >
-                                        {title}
-                                      </p>
-                                    ))}
-                                  </TableCell>
-                                  <TableCell className="h-full break-words px-0 py-3.5 text-center ring-1 ring-slate-300">
-                                    {item?.target}
-                                  </TableCell>
-                                  <TableCell className="h-full break-words px-2 py-3.5 text-center ring-1 ring-slate-300">
-                                    {item?.aktual}
-                                  </TableCell>
-                                  <TableCell className="h-full break-words px-2 py-3.5 text-left ring-1 ring-slate-300">
-                                    {item?.keterangan}
-                                  </TableCell>
-                                  <TableCell className="h-full break-words px-2 py-3.5 text-left ring-1 ring-slate-300">
-                                    {item?.rekomendasi}
-                                  </TableCell>
+                                        {item?.target}
+                                      </DialogTrigger>
+                                    </TableCell>
+                                    <TableCell className="h-full px-2 text-center break-words ring-1 ring-slate-300">
+                                      <DialogTrigger
+                                        className="w-full break-words px-2 py-3.5 text-center"
+                                        onClick={() => {
+                                          handleEdit({
+                                            penilaian_id: item.penilaian_id,
+                                            title: itemTitle[i] as string,
+                                            aktual: String(item?.aktual),
+                                            keterangan: String(
+                                              item?.keterangan
+                                                ? item?.keterangan
+                                                : "",
+                                            ),
+                                          });
+                                        }}
+                                      >
+                                        {item?.aktual}
+                                      </DialogTrigger>
+                                    </TableCell>
+                                    <TableCell className="h-full px-2 text-left break-words ring-1 ring-slate-300">
+                                      <DialogTrigger
+                                        className="h-full w-full break-words px-2 py-3.5 text-left"
+                                        onClick={() => {
+                                          handleEdit({
+                                            penilaian_id: item.penilaian_id,
+                                            title: itemTitle[i] as string,
+                                            aktual: String(item?.aktual),
+                                            keterangan: String(
+                                              item?.keterangan
+                                                ? item?.keterangan
+                                                : "",
+                                            ),
+                                          });
+                                        }}
+                                      >
+                                        {item?.keterangan}
+                                      </DialogTrigger>
+                                    </TableCell>
+                                    <TableCell className="h-full px-2 text-left break-words ring-1 ring-slate-300">
+                                      <DialogTrigger
+                                        className="h-full w-full break-words px-2 py-3.5 text-left"
+                                        onClick={() => {
+                                          handleEdit({
+                                            penilaian_id: item.penilaian_id,
+                                            title: itemTitle[i] as string,
+                                            aktual: String(item?.aktual),
+                                            keterangan: String(
+                                              item?.keterangan
+                                                ? item?.keterangan
+                                                : "",
+                                            ),
+                                          });
+                                        }}
+                                      >
+                                        {item?.rekomendasi}
+                                      </DialogTrigger>
+                                    </TableCell>
+                                    <DialogContent>
+                                        <>
+                                          <DialogHeader>
+                                            <DialogTitle>
+                                              {selectToEdit.title}
+                                            </DialogTitle>
+                                            <DialogDescription>
+                                              Edit Aktual dan Keterangan
+                                              berdasarkan baris yang dipilih.
+                                            </DialogDescription>
+                                          </DialogHeader>
+                                          <form
+                                            onSubmit={handleSubmit(onSubmit)}
+                                            className="grid gap-4 py-4"
+                                          >
+                                            {isPending && (
+                                              <>
+                                                <div className="relative">
+                                                  <p className="absolute pb-2 text-center -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ">
+                                                    Loading...
+                                                  </p>
+                                                  <div className="w-32 h-32 mx-auto border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
+                                                </div>
+                                              </>
+                                            )}
+                                            {!isPending && (
+                                              <>
+                                                <div className="flex flex-col items-center grid-cols-4 gap-4 sm:grid">
+                                                  <Label
+                                                    htmlFor="aktual"
+                                                    className="text-right"
+                                                  >
+                                                    Aktual
+                                                  </Label>
+                                                  <Input
+                                                    id="aktual"
+                                                    type="number"
+                                                    required
+                                                    min={0}
+                                                    max={10}
+                                                    {...register("aktual")}
+                                                    className="col-span-3"
+                                                    defaultValue={
+                                                      selectToEdit.aktual
+                                                    }
+                                                  />
+                                                </div>
+                                                <div className="flex flex-col items-center grid-cols-4 gap-4 sm:grid">
+                                                  <Label
+                                                    htmlFor="keterangan"
+                                                    className="text-right"
+                                                  >
+                                                    Keterangan
+                                                  </Label>
+                                                  <Input
+                                                    id="keterangan"
+                                                    {...register("keterangan")}
+                                                    className="col-span-3"
+                                                    defaultValue={
+                                                      selectToEdit.keterangan
+                                                    }
+                                                  />
+                                                </div>
+                                                <div className="pt-2">
+                                                  <Button
+                                                    type="submit"
+                                                    className="w-full"
+                                                  >
+                                                    Submit
+                                                  </Button>
+                                                </div>
+                                              </>
+                                            )}
+                                          </form>
+                                        </>
+                                      </DialogContent>
+                                  </Dialog>
                                 </TableRow>
                               ) : null}
                             </React.Fragment>

@@ -28,8 +28,6 @@ function Laporan() {
       return data;
     },
   });
-  console.log(data?.user, "ini userrrr");
-  console.log(data, "ini duserrrr");
 
   return (
     <>

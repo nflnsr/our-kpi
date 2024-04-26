@@ -24,7 +24,6 @@ function LoginPage() {
       const res = await axiosInstance.post("/auth/login", data, {
         withCredentials: true,
       });
-      console.log(res.data, "res.dataaa login")
       return {
         email: data.email,
         user_role: res.data.user_role,
