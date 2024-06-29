@@ -14,7 +14,7 @@ function NotFound() {
       </button>
       <section className="space-y-2 text-center">
         <p className="text-3xl font-bold">404 Not Found</p>
-        <p className="text-lg font-semibold">Halaman sedang dikembangkan 🚀</p>
+        <p className="text-lg font-semibold">Halaman yang dicari tidak ada.</p>
       </section>
     </Layout>
   );

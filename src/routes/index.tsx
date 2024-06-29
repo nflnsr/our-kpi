@@ -19,6 +19,8 @@ import Laporan from "@/pages/laporan";
 import Rekomendasi from "@/pages/rekomendasi";
 import Month from "@/pages/month";
 import Departements from "@/pages/departements";
+import PanduanPengisianKaryawan from "@/pages/panduan-pengisian-karyawan";
+import PanduanPengisianAdmin from "@/pages/panduan-pengisian-admin";
 
 function Index() {
   const navigate = useNavigate();
@@ -47,6 +49,8 @@ function Index() {
         <Route path="/laporan/admin/:departements/:bulan" element={<Laporan />} />
         <Route path="/rekomendasi" element={<Month />} />
         <Route path="/rekomendasi/:bulan" element={<Rekomendasi />} />
+        <Route path="/panduan-pengisian-karyawan" element={<PanduanPengisianKaryawan />} />
+        <Route path="/panduan-pengisian-admin" element={<PanduanPengisianAdmin />} />
       </Route>
       <Route>
         <Route path="/404" element={<Notfound />} />

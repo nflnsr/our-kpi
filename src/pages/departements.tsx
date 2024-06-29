@@ -22,13 +22,16 @@ const Departements = () => {
       >
         kembali
       </button>
-      <ul className="flex flex-col items-center justify-center gap-1 py-2.5 text-lg underline decoration-slate-400">
+      <ul className="flex list-disc flex-col text-left justify-center gap-1 py-2.5 text-lg decoration-slate-400">
         {data?.data?.map(
           (
             departement: { departements_id: string; departements_name: string },
             i: number,
           ) => (
-            <li key={i}>
+            <li
+              key={i}
+              className="text-sky-500 hover:text-sky-400 hover:underline"
+            >
               <Link
                 to={`${pathname}/${departement.departements_id}`}
                 state={{ departement_id: departement.departements_id }}
