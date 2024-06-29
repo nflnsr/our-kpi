@@ -6,7 +6,7 @@ import { useAxiosPrivate } from "@/hooks/useAxiosPrivate";
 function Dashboard() {
   const axiosPrivate = useAxiosPrivate();
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["dashboard"],
     queryFn: async () => {
       const { data } = await axiosPrivate.get("/auth/me");
@@ -38,41 +38,62 @@ function Dashboard() {
           </p>
         </div>
         <div className="flex flex-col items-center mt-24 text-xl justify-normal">
-          <ul className="font-semibold list-disc bold list-item text-sky-500">
-            {data?.role === "karyawan" && (
-              <>
-                <li>
-                  <Link to="/penilaians">Penilaian</Link>
-                </li>
-                <li>
-                  <Link
-                    to="/laporan"
-                    state={{ departement_id: data?.departement_id }}
-                  >
-                    Laporan
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/rekomendasi">Rekomendasi</Link>
-                </li>
-              </>
-            )}
-            {data?.role === "admin" && (
-              <>
-                <li>
-                  <Link to="/penilaians/admin">Penilaian</Link>
-                </li>
-                <li>
-                  <Link
-                    to="/laporan/admin"
-                    state={{ departement_id: data?.departement_id }}
-                  >
-                    Laporan
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
+          {isLoading && (
+            <div className="relative">
+              <p className="absolute pb-2 text-center -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 ">
+                Loading...
+              </p>
+              <div className="w-32 h-32 mx-auto border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
+            </div>
+          )}
+          {!isLoading && (
+            <ul className="font-semibold list-disc bold list-item ">
+              {data?.role === "karyawan" && (
+                <>
+                  <li className="text-sky-500 hover:text-sky-400 hover:underline">
+                    <Link to="/penilaians">Penilaian</Link>
+                  </li>
+                  <li className="text-sky-500 hover:text-sky-400 hover:underline">
+                    <Link
+                      to="/laporan"
+                      state={{ departement_id: data?.departement_id }}
+                    >
+                      Laporan
+                    </Link>
+                  </li>
+                  <li className="text-sky-500 hover:text-sky-400 hover:underline">
+                    <Link to="/rekomendasi">Rekomendasi</Link>
+                  </li>
+                </>
+              )}
+              {data?.role === "admin" && (
+                <>
+                  <li className="text-sky-500 hover:text-sky-400 hover:underline">
+                    <Link to="/penilaians/admin">Penilaian</Link>
+                  </li>
+                  <li className="text-sky-500 hover:text-sky-400 hover:underline">
+                    <Link
+                      to="/laporan/admin"
+                      state={{ departement_id: data?.departement_id }}
+                    >
+                      Laporan
+                    </Link>
+                  </li>
+                </>
+              )}
+              <li className="text-sky-500 hover:text-sky-400 hover:underline">
+                <Link
+                  to={
+                    data?.role === "admin"
+                      ? "/panduan-pengisian-admin"
+                      : "/panduan-pengisian-karyawan"
+                  }
+                >
+                  Panduan Pengisian
+                </Link>
+              </li>
+            </ul>
+          )}
         </div>
       </section>
     </Layout>

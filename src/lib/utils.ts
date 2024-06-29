@@ -15,5 +15,19 @@ const axiosPrivateInstance = axios.create({
   withCredentials: true,
 });
 
+function getFileNameFromURL(url?: string) {
+  if (!url) {
+    return;
+  }
+  const urlObject = new URL(url as string);
+  console.log(urlObject);
 
-export { axiosInstance, axiosPrivateInstance };
+  const pathname = urlObject.pathname;
+  console.log(pathname);
+  
+  const fileName = pathname.split('/').pop();
+  
+  return fileName;
+}
+
+export { axiosInstance, axiosPrivateInstance, getFileNameFromURL };

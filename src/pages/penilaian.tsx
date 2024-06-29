@@ -12,11 +12,11 @@ function Penilaian() {
   const axiosPrivate = useAxiosPrivate();
   const searchParams = useParams();
   const { data, isLoading } = useQuery({
-    queryKey: [`penilaian-${searchParams.bulan}-${state.departement_id}`],
+    queryKey: [`penilaian-${searchParams.bulan}-${state?.departement_id}`],
     queryFn: async () => {
       if (authData.role === "admin") {
         const { data } = await axiosPrivate.get(
-          `/penilaians/${state.departement_id}/?months[]=${searchParams.bulan}`,
+          `/penilaians/${state?.departement_id}/?months[]=${searchParams.bulan}`,
         );
         return data;
       }
